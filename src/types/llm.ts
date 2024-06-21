@@ -1,6 +1,20 @@
+import { ReactNode } from 'react';
+
 export interface ChatModelCard {
+  /**
+   * only used in azure
+   */
+  deploymentName?: string;
   description?: string;
+  /**
+   * the name show for end user
+   */
   displayName?: string;
+
+  /**
+   * whether model is enabled by default
+   */
+  enabled?: boolean;
   /**
    * whether model supports file upload
    */
@@ -9,7 +23,6 @@ export interface ChatModelCard {
    * whether model supports function call
    */
   functionCall?: boolean;
-  hidden?: boolean;
   id: string;
   /**
    * whether model is custom
@@ -21,7 +34,7 @@ export interface ChatModelCard {
   legacy?: boolean;
   maxOutput?: number;
   /**
-   * the context window
+   * the context window (or input + output tokens limit)
    */
   tokens?: number;
   /**
@@ -32,8 +45,50 @@ export interface ChatModelCard {
 
 export interface ModelProviderCard {
   chatModels: ChatModelCard[];
+  /**
+   * the default model that used for connection check
+   */
+  checkModel?: string;
+  /**
+   * whether provider show browser request option by default
+   *
+   * @default false
+   */
+  defaultShowBrowserRequest?: boolean;
+  /**
+   * some provider server like stepfun and aliyun don't support browser request,
+   * So we should disable it
+   *
+   * @default false
+   */
+  disableBrowserRequest?: boolean;
+  /**
+   * whether provider is enabled by default
+   */
   enabled?: boolean;
   id: string;
+  modelList?: {
+    azureDeployName?: boolean;
+    notFoundContent?: ReactNode;
+    placeholder?: string;
+    showModelFetcher?: boolean;
+  };
+  /**
+   * the name show for end user
+   */
+  name: string;
+  proxyUrl?:
+    | {
+        desc?: string;
+        placeholder: string;
+        title?: string;
+      }
+    | false;
+  /**
+   * whether show api key in the provider config
+   * so provider like ollama don't need api key field
+   */
+  showApiKey?: boolean;
 }
 
 // 语言模型的设置参数
@@ -64,7 +119,7 @@ export interface LLMParams {
   top_p?: number;
 }
 
-export type LLMRoleType = 'user' | 'system' | 'assistant' | 'function';
+export type LLMRoleType = 'user' | 'system' | 'assistant' | 'tool';
 
 export interface LLMMessage {
   content: string;

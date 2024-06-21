@@ -8,7 +8,7 @@ An open-source, modern-design ChatGPT/LLMs UI/Framework.<br/>
 Supports speech-synthesis, multi-modal, and extensible ([function call][docs-functionc-call]) plugin system.<br/>
 One-click **FREE** deployment of your private OpenAI ChatGPT/Claude/Gemini/Groq/Ollama chat application.
 
-**English** · [简体中文](./README.zh-CN.md) · [Changelog](./CHANGELOG.md) · [Documents][docs] · [Report Bug][github-issues-link] · [Request Feature][github-issues-link]
+**English** · [简体中文](./README.zh-CN.md) · [Official Site][official-site] · [Changelog](./CHANGELOG.md) · [Documents][docs] · [Blog][blog] · [Feedback][github-issues-link]
 
 <!-- SHIELD GROUP -->
 
@@ -59,9 +59,11 @@ One-click **FREE** deployment of your private OpenAI ChatGPT/Claude/Gemini/Groq/
   - [`5` Text to Image Generation](#5-text-to-image-generation)
   - [`6` Plugin System (Function Calling)](#6-plugin-system-function-calling)
   - [`7` Agent Market (GPTs)](#7-agent-market-gpts)
-  - [`8` Progressive Web App (PWA)](#8-progressive-web-app-pwa)
-  - [`9` Mobile Device Adaptation](#9-mobile-device-adaptation)
-  - [`10` Custom Themes](#10-custom-themes)
+  - [`8` Support Local / Remote Database](#8-support-local--remote-database)
+  - [`9` Support Multi-User Management](#9-support-multi-user-management)
+  - [`10` Progressive Web App (PWA)](#10-progressive-web-app-pwa)
+  - [`11` Mobile Device Adaptation](#11-mobile-device-adaptation)
+  - [`12` Custom Themes](#12-custom-themes)
   - [`*` What's more](#-whats-more)
 - [⚡️ Performance](#️-performance)
 - [🛳 Self Hosting](#-self-hosting)
@@ -123,11 +125,15 @@ We have implemented support for the following model service providers:
 - **AWS Bedrock**: Integrated with AWS Bedrock service, supporting models such as **Claude / LLama2**, providing powerful natural language processing capabilities. [Learn more](https://aws.amazon.com/cn/bedrock)
 - **Anthropic (Claude)**: Accessed Anthropic's **Claude** series models, including Claude 3 and Claude 2, with breakthroughs in multi-modal capabilities and extended context, setting a new industry benchmark. [Learn more](https://www.anthropic.com/claude)
 - **Google AI (Gemini Pro, Gemini Vision)**: Access to Google's **Gemini** series models, including Gemini and Gemini Pro, to support advanced language understanding and generation. [Learn more](https://deepmind.google/technologies/gemini/)
-- **ChatGLM**: Added the **ChatGLM** series models from Zhipuai (GLM-4/GLM-4-vision/GLM-3-turbo), providing users with another efficient conversation model choice. [Learn more](https://www.zhipuai.cn/)
-- **Moonshot AI (Dark Side of the Moon)**: Integrated with the Moonshot series models, an innovative AI startup from China, aiming to provide deeper conversation understanding. [Learn more](https://www.moonshot.cn/)
 - **Groq**: Accessed Groq's AI models, efficiently processing message sequences and generating responses, capable of multi-turn dialogues and single-interaction tasks. [Learn more](https://groq.com/)
 - **OpenRouter**: Supports routing of models including **Claude 3**, **Gemma**, **Mistral**, **Llama2** and **Cohere**, with intelligent routing optimization to improve usage efficiency, open and flexible. [Learn more](https://openrouter.ai/)
 - **01.AI (Yi Model)**: Integrated the 01.AI models, with series of APIs featuring fast inference speed, which not only shortened the processing time, but also maintained excellent model performance. [Learn more](https://01.ai/)
+- **Together.ai**: Over 100 leading open-source Chat, Language, Image, Code, and Embedding models are available through the Together Inference API. For these models you pay just for what you use. [Learn more](https://www.together.ai/)
+- **ChatGLM**: Added the **ChatGLM** series models from Zhipuai (GLM-4/GLM-4-vision/GLM-3-turbo), providing users with another efficient conversation model choice. [Learn more](https://www.zhipuai.cn/)
+- **Moonshot AI (Dark Side of the Moon)**: Integrated with the Moonshot series models, an innovative AI startup from China, aiming to provide deeper conversation understanding. [Learn more](https://www.moonshot.cn/)
+- **Minimax**: Integrated the Minimax models, including the MoE model **abab6**, offers a broader range of choices. [Learn more](https://www.minimaxi.com/)
+- **DeepSeek**: Integrated with the DeepSeek series models, an innovative AI startup from China, The product has been designed to provide a model that balances performance with price. [Learn more](https://www.deepseek.com/)
+- **Qwen**: Integrated the Qwen series models, including the latest **qwen-turbo**, **qwen-plus** and **qwen-max**. [Lean more](https://help.aliyun.com/zh/dashscope/developer-reference/model-introduction)
 
 At the same time, we are also planning to support more model service providers, such as Replicate and Perplexity, to further enrich our service provider library. If you would like LobeChat to support your favorite service provider, feel free to join our [community discussion](https://github.com/lobehub/lobe-chat/discussions/1284).
 
@@ -220,14 +226,14 @@ In addition, these plugins are not limited to news aggregation, but can also ext
 
 <!-- PLUGIN LIST -->
 
-| Recent Submits                                                                                                    | Description                                                                                                                                                                                                                     |
-| ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Calendar Assistant](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **cc** on **2024-03-13**</sup>  | A plugin to manage your calendar events # will auto generate i18n in workflow<br/>`calendar` `schedule` `will-auto-generate-i-18-n-in-workflow`                                                                                 |
-| [TokenInsights](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **feednews** on **2024-01-27**</sup> | Get realtime crypto price, BTC, ETH, BNB, and the latest insights.The latest coin news and airdrop opportunities.<br/>`crypto` `btc` `eth` `bnb`                                                                                |
-| [Bilibili](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **LobeHub** on **2024-01-27**</sup>       | Dive into Bilibili's vast content with features like keyword video search, replay access, interactive danmaku, trending video recommendations, and hot-search insights, all at your fingertips.<br/>`video` `bilibili` `search` |
-| [Steam](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **LobeHub** on **2024-01-27**</sup>          | Obtain game information and user reviews from Steam.<br/>`steam` `game`                                                                                                                                                         |
+| Recent Submits                                                                                                            | Description                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [Social Search](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **say-apps** on **2024-06-02**</sup>         | The Social Search provides access to tweets, users, followers, images, media and more.<br/>`social` `twitter` `x` `search` |
+| [Space](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **automateyournetwork** on **2024-05-12**</sup>      | Space data including NASA.<br/>`space` `nasa`                                                                              |
+| [Search1API](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **fatwang2** on **2024-05-06**</sup>            | Search aggregation service, specifically designed for LLMs<br/>`web` `search`                                              |
+| [Search Google via Serper](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **Barry** on **2024-04-30**</sup> | Google search engine via Serper.dev free API (2500x🆓/month)<br/>`web` `search`                                            |
 
-> 📊 Total plugins: [<kbd>**55**</kbd>](https://github.com/lobehub/lobe-chat-plugins)
+> 📊 Total plugins: [<kbd>**53**</kbd>](https://github.com/lobehub/lobe-chat-plugins)
 
  <!-- PLUGIN LIST -->
 
@@ -259,14 +265,14 @@ Our marketplace is not just a showcase platform but also a collaborative space. 
 
 <!-- AGENT LIST -->
 
-| Recent Submits                                                                                                                                                                                      | Description                                                                                                                                                         |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Blood Test Analyst](https://chat-preview.lobehub.com/market?agent=blood-analyst)<br/><sup>By **[SimoMay](https://github.com/SimoMay)** on **2024-03-27**</sup>                                     | Skilled in analysing blood test results, providing clear feedback using emojis for easy understanding.<br/>`healthcare` `analysis` `results` `consulting` `summary` |
-| [High EQ Flattery Assistant](https://chat-preview.lobehub.com/market?agent=gpts-big-fart-chat)<br/><sup>By **[MapleEve](https://github.com/MapleEve)** on **2024-03-27**</sup>                      | An expert in precise chat compliments, providing suitable praise and flattery<br/>`compliments` `eq` `chat`                                                         |
-| [Suno.ai Music Creation Assistant](https://chat-preview.lobehub.com/market?agent=suno-music-creator)<br/><sup>By **[MapleEve](https://github.com/MapleEve)** on **2024-03-27**</sup>                | Song creation and translation based on SunoAI<br/>`suno` `lyricist` `lyrics` `music-production`                                                                     |
-| [Image Recognition Xiaohongshu Copywriting](https://chat-preview.lobehub.com/market?agent=xiaonghongshu-vision)<br/><sup>By **[HansKing98](https://github.com/HansKing98)** on **2024-03-27**</sup> | You can use this agent combined with a multimodal model to upload images and generate Xiaohongshu-style copywriting.<br/>`vision`                                   |
+| Recent Submits                                                                                                                                                                                           | Description                                                                                                                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Fastapi Project Development Assistant](https://chat-preview.lobehub.com/market?agent=fastapi-development)<br/><sup>By **[xwxw098](https://github.com/xwxw098)** on **2024-06-19**</sup>                 | Proficient in Python modular development, skilled in using FastAPI, PostgreSQL, Tortoise-ORM, and other technologies, able to provide clear code structure and detailed comments for large projects.<br/>`fast-api` `python` `modular-development` |
+| [NovelAI Drawing Assistant](https://chat-preview.lobehub.com/market?agent=novel-ai-pormpt-helper)<br/><sup>By **[WallBreakerNO4](https://github.com/WallBreakerNO4)** on **2024-06-18**</sup>            | I can turn the scenes you describe into prompts for NovelAI<br/>`deep-learning` `image-generation` `algorithm` `prompt`                                                                                                                            |
+| [Pseudo Code Prompt Word Generator Expert](https://chat-preview.lobehub.com/market?agent=pseudocode-prompt-master)<br/><sup>By **[yayoinoyume](https://github.com/yayoinoyume)** on **2024-06-16**</sup> | Pseudo Code Prompt Word Generator Expert allows users to directly input prompt word design requirements and returns designed pseudo code prompt words directly.<br/>`prompt` `prompt-word` `pseudo-code`                                           |
+| [Mr. MySQL](https://chat-preview.lobehub.com/market?agent=mysql-haoteacher)<br/><sup>By **[yayoinoyume](https://github.com/yayoinoyume)** on **2024-06-09**</sup>                                        | Mr. MySQL is a great teacher to help everyone learn MySQL<br/>`mysql` `programming` `learning`                                                                                                                                                     |
 
-> 📊 Total agents: [<kbd>**224**</kbd> ](https://github.com/lobehub/lobe-chat-agents)
+> 📊 Total agents: [<kbd>**291**</kbd> ](https://github.com/lobehub/lobe-chat-agents)
 
  <!-- AGENT LIST -->
 
@@ -276,9 +282,44 @@ Our marketplace is not just a showcase platform but also a collaborative space. 
 
 </div>
 
+[![][image-feat-database]][docs-feat-database]
+
+### `8` [Support Local / Remote Database][docs-feat-database]
+
+LobeChat supports the use of both server-side and local databases. Depending on your needs, you can choose the appropriate deployment solution:
+
+- **Local database**: suitable for users who want more control over their data and privacy protection. LobeChat uses CRDT (Conflict-Free Replicated Data Type) technology to achieve multi-device synchronization. This is an experimental feature aimed at providing a seamless data synchronization experience.
+- **Server-side database**: suitable for users who want a more convenient user experience. LobeChat supports PostgreSQL as a server-side database. For detailed documentation on how to configure the server-side database, please visit [Configure Server-side Database](https://lobehub.com/docs/self-hosting/advanced/server-database).
+
+Regardless of which database you choose, LobeChat can provide you with an excellent user experience.
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
+[![][image-feat-auth]][docs-feat-auth]
+
+### `9` [Support Multi-User Management][docs-feat-auth]
+
+LobeChat supports multi-user management and provides two main user authentication and management solutions to meet different needs:
+
+- **next-auth**: LobeChat integrates `next-auth`, a flexible and powerful identity verification library that supports multiple authentication methods, including OAuth, email login, credential login, etc. With `next-auth`, you can easily implement user registration, login, session management, social login, and other functions to ensure the security and privacy of user data.
+
+- **Clerk**: For users who need more advanced user management features, LobeChat also supports `Clerk`, a modern user management platform. `Clerk` provides richer functions, such as multi-factor authentication (MFA), user profile management, login activity monitoring, etc. With `Clerk`, you can get higher security and flexibility, and easily cope with complex user management needs.
+
+Regardless of which user management solution you choose, LobeChat can provide you with an excellent user experience and powerful functional support.
+
+<div align="right">
+
+[![][back-to-top]](#readme-top)
+
+</div>
+
 [![][image-feat-pwa]][docs-feat-pwa]
 
-### `8` [Progressive Web App (PWA)][docs-feat-pwa]
+### `10` [Progressive Web App (PWA)][docs-feat-pwa]
 
 We deeply understand the importance of providing a seamless experience for users in today's multi-device environment.
 Therefore, we have adopted Progressive Web Application ([PWA](https://support.google.com/chrome/answer/9658361)) technology,
@@ -305,7 +346,7 @@ providing smooth animations, responsive layouts, and adapting to different devic
 
 [![][image-feat-mobile]][docs-feat-mobile]
 
-### `9` [Mobile Device Adaptation][docs-feat-mobile]
+### `11` [Mobile Device Adaptation][docs-feat-mobile]
 
 We have carried out a series of optimization designs for mobile devices to enhance the user's mobile experience. Currently, we are iterating on the mobile user experience to achieve smoother and more intuitive interactions. If you have any suggestions or ideas, we welcome you to provide feedback through GitHub Issues or Pull Requests.
 
@@ -317,7 +358,7 @@ We have carried out a series of optimization designs for mobile devices to enhan
 
 [![][image-feat-theme]][docs-feat-theme]
 
-### `10` [Custom Themes][docs-feat-theme]
+### `12` [Custom Themes][docs-feat-theme]
 
 As a design-engineering-oriented application, LobeChat places great emphasis on users' personalized experiences,
 hence introducing flexible and diverse theme modes, including a light mode for daytime and a dark mode for nighttime.
@@ -459,7 +500,7 @@ This project provides some additional configuration items set with environment v
 | `OPENAI_API_KEY`     | Yes      | This is the API key you apply on the OpenAI account page                                                                                                                  | `sk-xxxxxx...xxxxxx`                                                                                                 |
 | `OPENAI_PROXY_URL`   | No       | If you manually configure the OpenAI interface proxy, you can use this configuration item to override the default OpenAI API request base URL                             | `https://api.chatanywhere.cn` or `https://aihubmix.com/v1` <br/>The default value is<br/>`https://api.openai.com/v1` |
 | `ACCESS_CODE`        | No       | Add a password to access this service; you can set a long password to avoid leaking. If this value contains a comma, it is a password array.                              | `awCTe)re_r74` or `rtrt_ewee3@09!` or `code1,code2,code3`                                                            |
-| `CUSTOM_MODELS`      | No       | Used to control the model list. Use `+` to add a model, `-` to hide a model, and `model_name=display_name` to customize the display name of a model, separated by commas. | `qwen-7b-chat,+glm-6b,-gpt-3.5-turbo`                                                                                |
+| `OPENAI_MODEL_LIST`  | No       | Used to control the model list. Use `+` to add a model, `-` to hide a model, and `model_name=display_name` to customize the display name of a model, separated by commas. | `qwen-7b-chat,+glm-6b,-gpt-3.5-turbo`                                                                                |
 
 > \[!NOTE]
 >
@@ -624,12 +665,13 @@ Every bit counts and your one-time donation sparkles in our galaxy of support! Y
 
 </details>
 
-Copyright © 2023 [LobeHub][profile-link]. <br />
-This project is [MIT](./LICENSE) licensed.
+Copyright © 2024 [LobeHub][profile-link]. <br />
+This project is [Apache 2.0](./LICENSE) licensed.
 
 <!-- LINK GROUP -->
 
 [back-to-top]: https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square
+[blog]: https://lobehub.com/blog
 [chat-desktop]: https://raw.githubusercontent.com/lobehub/lobe-chat/lighthouse/lighthouse/chat/desktop/pagespeed.svg
 [chat-desktop-report]: https://lobehub.github.io/lobe-chat/lighthouse/chat/desktop/chat_preview_lobehub_com_chat.html
 [chat-mobile]: https://raw.githubusercontent.com/lobehub/lobe-chat/lighthouse/lighthouse/chat/mobile/pagespeed.svg
@@ -656,27 +698,29 @@ This project is [MIT](./LICENSE) licensed.
 [docker-release-shield]: https://img.shields.io/docker/v/lobehub/lobe-chat?color=369eff&label=docker&labelColor=black&logo=docker&logoColor=white&style=flat-square
 [docker-size-link]: https://hub.docker.com/r/lobehub/lobe-chat
 [docker-size-shield]: https://img.shields.io/docker/image-size/lobehub/lobe-chat?color=369eff&labelColor=black&style=flat-square
-[docs]: https://chat-docs.lobehub.com/en
+[docs]: https://lobehub.com/docs/usage/start
 [docs-dev-guide]: https://github.com/lobehub/lobe-chat/wiki/index
-[docs-docker]: https://chat-docs.lobehub.com/en/self-hosting/platform/docker
-[docs-env-var]: https://chat-docs.lobehub.com/en/self-hosting/environment-variables
-[docs-feat-agent]: https://chat-docs.lobehub.com/en/usage/features/agent-market
-[docs-feat-local]: https://chat-docs.lobehub.com/en/usage/features/local-llm
-[docs-feat-mobile]: https://chat-docs.lobehub.com/en/usage/features/mobile
-[docs-feat-plugin]: https://chat-docs.lobehub.com/en/usage/features/plugin-system
-[docs-feat-provider]: https://chat-docs.lobehub.com/en/usage/features/multi-ai-providers
-[docs-feat-pwa]: https://chat-docs.lobehub.com/en/usage/features/pwa
-[docs-feat-t2i]: https://chat-docs.lobehub.com/en/usage/features/text-to-image
-[docs-feat-theme]: https://chat-docs.lobehub.com/en/usage/features/theme
-[docs-feat-tts]: https://chat-docs.lobehub.com/en/usage/features/tts
-[docs-feat-vision]: https://chat-docs.lobehub.com/en/usage/features/vision
-[docs-functionc-call]: https://platform.openai.com/docs/guides/function-calling
+[docs-docker]: https://lobehub.com/docs/self-hosting/platform/docker
+[docs-env-var]: https://lobehub.com/docs/self-hosting/environment-variables
+[docs-feat-agent]: https://lobehub.com/docs/usage/features/agent-market
+[docs-feat-auth]: https://lobehub.com/docs/usage/features/auth
+[docs-feat-database]: https://lobehub.com/docs/usage/features/database
+[docs-feat-local]: https://lobehub.com/docs/usage/features/local-llm
+[docs-feat-mobile]: https://lobehub.com/docs/usage/features/mobile
+[docs-feat-plugin]: https://lobehub.com/docs/usage/features/plugin-system
+[docs-feat-provider]: https://lobehub.com/docs/usage/features/multi-ai-providers
+[docs-feat-pwa]: https://lobehub.com/docs/usage/features/pwa
+[docs-feat-t2i]: https://lobehub.com/docs/usage/features/text-to-image
+[docs-feat-theme]: https://lobehub.com/docs/usage/features/theme
+[docs-feat-tts]: https://lobehub.com/docs/usage/features/tts
+[docs-feat-vision]: https://lobehub.com/docs/usage/features/vision
+[docs-functionc-call]: https://lobehub.com/blog/openai-function-call
 [docs-lighthouse]: https://github.com/lobehub/lobe-chat/wiki/Lighthouse
-[docs-plugin-dev]: https://chat-docs.lobehub.com/en/usage/plugins/development
-[docs-self-hosting]: https://chat-docs.lobehub.com/en/self-hosting/start
-[docs-upstream-sync]: https://chat-docs.lobehub.com/en/self-hosting/advanced/upstream-sync
-[docs-usage-ollama]: https://chat-docs.lobehub.com/en/usage/providers/ollama
-[docs-usage-plugin]: https://chat-docs.lobehub.com/en/usage/plugins/basic
+[docs-plugin-dev]: https://lobehub.com/docs/usage/plugins/development
+[docs-self-hosting]: https://lobehub.com/docs/self-hosting/start
+[docs-upstream-sync]: https://lobehub.com/docs/self-hosting/advanced/upstream-sync
+[docs-usage-ollama]: https://lobehub.com/docs/usage/providers/ollama
+[docs-usage-plugin]: https://lobehub.com/docs/usage/plugins/basic
 [fossa-license-link]: https://app.fossa.com/projects/git%2Bgithub.com%2Flobehub%2Flobe-chat
 [fossa-license-shield]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Flobehub%2Flobe-chat.svg?type=large
 [github-action-release-link]: https://github.com/actions/workflows/lobehub/lobe-chat/release.yml
@@ -690,7 +734,7 @@ This project is [MIT](./LICENSE) licensed.
 [github-issues-link]: https://github.com/lobehub/lobe-chat/issues
 [github-issues-shield]: https://img.shields.io/github/issues/lobehub/lobe-chat?color=ff80eb&labelColor=black&style=flat-square
 [github-license-link]: https://github.com/lobehub/lobe-chat/blob/main/LICENSE
-[github-license-shield]: https://img.shields.io/github/license/lobehub/lobe-chat?color=white&labelColor=black&style=flat-square
+[github-license-shield]: https://img.shields.io/badge/license-apache%202.0-white?labelColor=black&style=flat-square
 [github-project-link]: https://github.com/lobehub/lobe-chat/projects
 [github-release-link]: https://github.com/lobehub/lobe-chat/releases
 [github-release-shield]: https://img.shields.io/github/v/release/lobehub/lobe-chat?color=369eff&labelColor=black&logo=github&style=flat-square
@@ -702,6 +746,8 @@ This project is [MIT](./LICENSE) licensed.
 [github-trending-url]: https://trendshift.io/repositories/2256
 [image-banner]: https://github.com/lobehub/lobe-chat/assets/28616219/9f155dff-4737-429f-9cad-a70a1a860c5f
 [image-feat-agent]: https://github-production-user-asset-6210df.s3.amazonaws.com/17870709/268670869-f1ffbf66-42b6-42cf-a937-9ce1f8328514.png
+[image-feat-auth]: https://github.com/lobehub/lobe-chat/assets/17870709/8ce70e15-40df-451e-b700-66090fe5b8c2
+[image-feat-database]: https://github.com/lobehub/lobe-chat/assets/17870709/c27a0234-a4e9-40e5-8bcb-42d5ce7e40f9
 [image-feat-local]: https://github.com/lobehub/lobe-chat/assets/28616219/ca9a21bc-ea6c-4c90-bf4a-fa53b4fb2b5c
 [image-feat-mobile]: https://gw.alipayobjects.com/zos/kitchen/R441AuFS4W/mobile.webp
 [image-feat-plugin]: https://github-production-user-asset-6210df.s3.amazonaws.com/17870709/268670883-33c43a5c-a512-467e-855c-fa299548cce5.png
@@ -711,7 +757,7 @@ This project is [MIT](./LICENSE) licensed.
 [image-feat-theme]: https://gw.alipayobjects.com/zos/kitchen/pvus1lo%26Z7/darkmode.webp
 [image-feat-tts]: https://github-production-user-asset-6210df.s3.amazonaws.com/17870709/284072124-c9853d8d-f1b5-44a8-a305-45ebc0f6d19a.png
 [image-feat-vision]: https://github-production-user-asset-6210df.s3.amazonaws.com/17870709/284072129-382bdf30-e3d6-4411-b5a0-249710b8ba08.png
-[image-overview]: https://github.com/lobehub/lobe-chat/assets/28616219/8b04c3c9-3d71-4fb4-bd9b-a4f415c5876d
+[image-overview]: https://github.com/lobehub/lobe-chat/assets/17870709/56b95d48-f573-41cd-8b38-387bf88bc4bf
 [image-star]: https://github.com/lobehub/lobe-chat/assets/17870709/cb06b748-513f-47c2-8740-d876858d7855
 [issues-link]: https://img.shields.io/github/issues/lobehub/lobe-chat.svg?style=flat
 [lobe-chat-plugins]: https://github.com/lobehub/lobe-chat-plugins
@@ -731,6 +777,7 @@ This project is [MIT](./LICENSE) licensed.
 [lobe-ui-github]: https://github.com/lobehub/lobe-ui
 [lobe-ui-link]: https://www.npmjs.com/package/@lobehub/ui
 [lobe-ui-shield]: https://img.shields.io/npm/v/@lobehub/ui?color=369eff&labelColor=black&logo=npm&logoColor=white&style=flat-square
+[official-site]: https://lobehub.com
 [pr-welcome-link]: https://github.com/lobehub/lobe-chat/pulls
 [pr-welcome-shield]: https://img.shields.io/badge/🤯_pr_welcome-%E2%86%92-ffcb47?labelColor=black&style=for-the-badge
 [profile-link]: https://github.com/lobehub
@@ -755,5 +802,5 @@ This project is [MIT](./LICENSE) licensed.
 [submit-plugin-link]: https://github.com/lobehub/lobe-chat-plugins
 [submit-plugin-shield]: https://img.shields.io/badge/🧩/🏪_submit_plugin-%E2%86%92-95f3d9?labelColor=black&style=for-the-badge
 [vercel-link]: https://chat-preview.lobehub.com
-[vercel-shield]: https://img.shields.io/website?down_message=offline&label=vercel&labelColor=black&logo=vercel&style=flat-square&up_message=online&url=https%3A%2F%2Fchat-preview.lobehub.com
-[vercel-shield-badge]: https://img.shields.io/website?down_message=offline&label=try%20lobechat&labelColor=black&logo=vercel&style=for-the-badge&up_message=online&url=https%3A%2F%2Fchat-preview.lobehub.com
+[vercel-shield]: https://img.shields.io/badge/vercel-online-55b467?labelColor=black&logo=vercel&style=flat-square
+[vercel-shield-badge]: https://img.shields.io/badge/TRY%20LOBECHAT-ONLINE-55b467?labelColor=black&logo=vercel&style=for-the-badge
