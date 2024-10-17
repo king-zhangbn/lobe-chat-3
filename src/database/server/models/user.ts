@@ -2,17 +2,23 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { DeepPartial } from 'utility-types';
 
-import { serverDB } from '@/database/server';
-import { KeyVaultsGateKeeper } from '@/server/keyVaultsEncrypt';
-import { UserPreference } from '@/types/user';
+import { serverDB } from '@/database/server/core/db';
+import { KeyVaultsGateKeeper } from '@/server/modules/KeyVaultsEncrypt';
+import { UserGuide, UserPreference } from '@/types/user';
 import { UserSettings } from '@/types/user/settings';
 import { merge } from '@/utils/merge';
 
 import { NewUser, UserItem, userSettings, users } from '../schemas/lobechat';
 import { SessionModel } from './session';
 
+export class UserNotFoundError extends TRPCError {
+  constructor() {
+    super({ code: 'UNAUTHORIZED', message: 'user not found' });
+  }
+}
+
 export class UserModel {
-  createUser = async (params: NewUser) => {
+  static createUser = async (params: NewUser) => {
     const [user] = await serverDB
       .insert(users)
       .values({ ...params })
@@ -24,12 +30,16 @@ export class UserModel {
     await model.createInbox();
   };
 
-  deleteUser = async (id: string) => {
+  static deleteUser = async (id: string) => {
     return serverDB.delete(users).where(eq(users.id, id));
   };
 
-  findById = async (id: string) => {
+  static findById = async (id: string) => {
     return serverDB.query.users.findFirst({ where: eq(users.id, id) });
+  };
+
+  static findByEmail = async (email: string) => {
+    return serverDB.query.users.findFirst({ where: eq(users.email, email) });
   };
 
   getUserState = async (id: string) => {
@@ -51,7 +61,7 @@ export class UserModel {
       .leftJoin(userSettings, eq(users.id, userSettings.id));
 
     if (!result || !result[0]) {
-      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      throw new UserNotFoundError();
     }
 
     const state = result[0];
@@ -133,6 +143,17 @@ export class UserModel {
     return serverDB
       .update(users)
       .set({ preference: merge(user.preference, value) })
+      .where(eq(users.id, id));
+  }
+
+  async updateGuide(id: string, value: Partial<UserGuide>) {
+    const user = await serverDB.query.users.findFirst({ where: eq(users.id, id) });
+    if (!user) return;
+
+    const prevPreference = (user.preference || {}) as UserPreference;
+    return serverDB
+      .update(users)
+      .set({ preference: { ...prevPreference, guide: merge(prevPreference.guide || {}, value) } })
       .where(eq(users.id, id));
   }
 }

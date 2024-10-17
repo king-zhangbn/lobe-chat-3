@@ -8,9 +8,10 @@ import useSWR from 'swr';
 
 import { ollamaService } from '@/services/ollama';
 import { useChatStore } from '@/store/chat';
+import { formatSize } from '@/utils/format';
 
 import { ErrorActionContainer, FormAction } from '../../style';
-import { formatSize, useDownloadMonitor } from './useDownloadMonitor';
+import { useDownloadMonitor } from './useDownloadMonitor';
 
 interface OllamaModelFormProps {
   id: string;
@@ -25,7 +26,7 @@ const OllamaModelForm = memo<OllamaModelFormProps>(({ id, model }) => {
   const [total, setTotal] = useState(0);
   const { remainingTime, downloadSpeed } = useDownloadMonitor(total, completed);
   const percent = useMemo(() => {
-    return total ? Number(((completed / total) * 100).toFixed(0)) : 0;
+    return total ? Number(((completed / total) * 100).toFixed(1)) : 0;
   }, [completed, total]);
 
   const [delAndRegenerateMessage, deleteMessage] = useChatStore((s) => [
@@ -113,8 +114,8 @@ const OllamaModelForm = memo<OllamaModelFormProps>(({ id, model }) => {
               !total
               ? t('ollama.unlock.starting')
               : t('ollama.unlock.downloaded', {
-                  completed: formatSize(completed),
-                  total: formatSize(total),
+                  completed: formatSize(completed, 2),
+                  total: formatSize(total, 2),
                 })}
         </Button>
         {isDownloading ? (

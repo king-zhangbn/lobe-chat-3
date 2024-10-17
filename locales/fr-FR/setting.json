@@ -12,7 +12,7 @@
   },
   "analytics": {
     "telemetry": {
-      "desc": "En choisissant d'envoyer des données de télémétrie, vous pouvez nous aider à améliorer l'expérience utilisateur globale de LobeChat",
+      "desc": "En choisissant d'envoyer des données de télémétrie, vous pouvez nous aider à améliorer l'expérience utilisateur globale de {{appName}}.",
       "title": "Envoyer des données d'utilisation anonymes"
     },
     "title": "Analytique"
@@ -43,6 +43,7 @@
     "title": "Paramètres"
   },
   "llm": {
+    "aesGcm": "Votre clé, votre adresse de proxy, etc. seront cryptées à l'aide de l'algorithme de chiffrement <1>AES-GCM</1>",
     "apiKey": {
       "desc": "Veuillez saisir votre clé API {{name}}",
       "placeholder": "Clé API {{name}}",
@@ -69,11 +70,11 @@
           "title": "Nom d'affichage du modèle"
         },
         "files": {
-          "extra": "La fonctionnalité de téléchargement de fichiers actuelle de LobeChat est une solution de contournement, à utiliser à vos risques et périls. Veuillez attendre une mise en œuvre complète de la capacité de téléchargement de fichiers.",
+          "extra": "La mise en œuvre actuelle du téléchargement de fichiers n'est qu'une solution de contournement, réservée à un usage personnel. Veuillez attendre la mise en œuvre complète de la capacité de téléchargement de fichiers.",
           "title": "Prise en charge du téléchargement de fichiers"
         },
         "functionCall": {
-          "extra": "Cette configuration activera uniquement la capacité d'appel de fonctions dans LobeChat. La prise en charge des appels de fonctions dépend entièrement du modèle lui-même. Veuillez tester par vous-même la disponibilité de la capacité d'appel de fonctions de ce modèle.",
+          "extra": "Cette configuration n'activera que la capacité d'appel de fonctions dans l'application. La prise en charge des appels de fonctions dépend entièrement du modèle lui-même, veuillez tester la disponibilité des capacités d'appel de fonctions de ce modèle.",
           "title": "Prise en charge de l'appel de fonctions"
         },
         "id": {
@@ -87,7 +88,7 @@
           "unlimited": "illimité"
         },
         "vision": {
-          "extra": "Cette configuration activera uniquement la configuration de téléchargement d'images dans LobeChat. La prise en charge de la reconnaissance dépend entièrement du modèle lui-même. Veuillez tester par vous-même la disponibilité de la capacité de reconnaissance visuelle de ce modèle.",
+          "extra": "Cette configuration n'activera que la configuration de téléchargement d'images dans l'application. La prise en charge de la reconnaissance dépend entièrement du modèle lui-même, veuillez tester la disponibilité des capacités de reconnaissance visuelle de ce modèle.",
           "title": "Prise en charge de la reconnaissance visuelle"
         }
       }
@@ -113,7 +114,7 @@
       "desc": "Doit inclure http(s):// en plus de l'adresse par défaut",
       "title": "Adresse du proxy de l'API"
     },
-    "waitingForMore": "Plus de modèles sont en cours de <1>planification pour être ajoutés</1>, restez à l'écoute ✨"
+    "waitingForMore": "Plus de modèles sont en cours de <1>planification pour être ajoutés</1>, restez à l'écoute"
   },
   "plugin": {
     "addTooltip": "Ajouter un plugin personnalisé",
@@ -208,13 +209,7 @@
       "title": "Limite de tokens par réponse"
     },
     "model": {
-      "desc": "Modèle ChatGPT",
-      "list": {
-        "gpt-3.5-turbo": "GPT 3.5",
-        "gpt-3.5-turbo-16k": "GPT 3.5 (16K)",
-        "gpt-4": "GPT 4",
-        "gpt-4-32k": "GPT 4 (32K)"
-      },
+      "desc": "Modèle {{provider}}",
       "title": "Modèle"
     },
     "presencePenalty": {
@@ -344,7 +339,7 @@
       "unknownOS": "Système d'exploitation inconnu"
     },
     "warning": {
-      "message": "Cette fonctionnalité est actuellement expérimentale et peut présenter des comportements inattendus ou instables. En cas de problème, veuillez soumettre vos commentaires rapidement."
+      "tip": "Après une longue période de test communautaire, la synchronisation WebRTC peut ne pas répondre de manière stable aux besoins généraux de synchronisation des données. Veuillez <1>déployer votre propre serveur de signalisation</1> avant utilisation."
     },
     "webrtc": {
       "channelName": {
@@ -360,8 +355,13 @@
       },
       "desc": "Communication de données en temps réel et en pair-à-pair. Les appareils doivent être en ligne simultanément pour se synchroniser",
       "enabled": {
-        "invalid": "Veuillez entrer un nom de canal de synchronisation avant d'activer",
+        "invalid": "Veuillez saisir l'adresse du serveur de signalisation et le nom du canal de synchronisation avant d'activer.",
         "title": "Activer la synchronisation"
+      },
+      "signaling": {
+        "desc": "WebRTC utilisera cette adresse pour la synchronisation",
+        "placeholder": "Veuillez entrer l'adresse du serveur de signalisation",
+        "title": "Serveur de signalisation"
       },
       "title": "Synchronisation WebRTC"
     }
@@ -371,6 +371,11 @@
       "label": "Modèle de génération de métadonnées d'assistant",
       "modelDesc": "Modèle spécifié pour générer le nom, la description, l'avatar et les balises de l'assistant",
       "title": "Génération automatique des informations de l'assistant"
+    },
+    "queryRewrite": {
+      "label": "Modèle de reformulation des questions",
+      "modelDesc": "Modèle utilisé pour optimiser les questions des utilisateurs",
+      "title": "Base de connaissances"
     },
     "title": "Agent système",
     "topic": {

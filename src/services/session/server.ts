@@ -13,9 +13,9 @@ import {
   LobeAgentSession,
   LobeSessionType,
   LobeSessions,
-  SessionGroupId,
   SessionGroupItem,
   SessionGroups,
+  UpdateSessionParams,
 } from '@/types/session';
 
 import { ISessionService } from './type';
@@ -54,14 +54,11 @@ export class ServerService implements ISessionService {
     return lambdaClient.session.countSessions.query();
   }
 
-  updateSession(
-    id: string,
-    data: Partial<{ group?: SessionGroupId; meta?: any; pinned?: boolean }>,
-  ): Promise<any> {
-    const { group, pinned, meta } = data;
+  updateSession(id: string, data: Partial<UpdateSessionParams>): Promise<any> {
+    const { group, pinned, meta, updatedAt } = data;
     return lambdaClient.session.updateSession.mutate({
       id,
-      value: { groupId: group === 'default' ? null : group, pinned, ...meta },
+      value: { groupId: group === 'default' ? null : group, pinned, ...meta, updatedAt },
     });
   }
 
@@ -71,7 +68,7 @@ export class ServerService implements ISessionService {
 
     // TODO: Need to be fixed
     // @ts-ignore
-    return lambdaClient.session.getSessionConfig.query({ id });
+    return lambdaClient.agent.getAgentConfig.query({ sessionId: id });
   }
 
   updateSessionConfig(
@@ -94,7 +91,7 @@ export class ServerService implements ISessionService {
     return lambdaClient.session.updateSessionChatConfig.mutate({ id, value }, { signal });
   }
 
-  getSessionsByType(type: 'agent' | 'group' | 'all' = 'all'): Promise<LobeSessions> {
+  getSessionsByType(_type: 'agent' | 'group' | 'all' = 'all'): Promise<LobeSessions> {
     // TODO: need be fixed
     // @ts-ignore
     return lambdaClient.session.getSessions.query({});
@@ -124,7 +121,7 @@ export class ServerService implements ISessionService {
     return lambdaClient.sessionGroup.getSessionGroup.query();
   }
 
-  batchCreateSessionGroups(groups: SessionGroups): Promise<BatchTaskResult> {
+  batchCreateSessionGroups(_groups: SessionGroups): Promise<BatchTaskResult> {
     return Promise.resolve({ added: 0, ids: [], skips: [], success: true });
   }
 

@@ -3,8 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { INBOX_SESSION_ID } from '@/const/session';
 import { getTestDBInstance } from '@/database/server/core/dbForTest';
-import { KeyVaultsGateKeeper } from '@/server/keyVaultsEncrypt';
-import { UserPreference } from '@/types/user';
+import { KeyVaultsGateKeeper } from '@/server/modules/KeyVaultsEncrypt';
+import { UserGuide, UserPreference } from '@/types/user';
 import { UserSettings } from '@/types/user/settings';
 
 import { userSettings, users } from '../../schemas/lobechat';
@@ -20,6 +20,7 @@ vi.mock('@/database/server/core/db', async () => ({
 }));
 
 const userId = 'user-db';
+const userEmail = 'user@example.com';
 const userModel = new UserModel();
 
 beforeEach(async () => {
@@ -43,7 +44,7 @@ describe('UserModel', () => {
         email: 'test@example.com',
       };
 
-      await userModel.createUser(params);
+      await UserModel.createUser(params);
 
       const user = await serverDB.query.users.findFirst({ where: eq(users.id, userId) });
       expect(user).not.toBeNull();
@@ -60,7 +61,7 @@ describe('UserModel', () => {
     it('should delete a user', async () => {
       await serverDB.insert(users).values({ id: userId });
 
-      await userModel.deleteUser(userId);
+      await UserModel.deleteUser(userId);
 
       const user = await serverDB.query.users.findFirst({ where: eq(users.id, userId) });
       expect(user).toBeUndefined();
@@ -71,11 +72,23 @@ describe('UserModel', () => {
     it('should find a user by ID', async () => {
       await serverDB.insert(users).values({ id: userId, username: 'testuser' });
 
-      const user = await userModel.findById(userId);
+      const user = await UserModel.findById(userId);
 
       expect(user).not.toBeNull();
       expect(user?.id).toBe(userId);
       expect(user?.username).toBe('testuser');
+    });
+  });
+
+  describe('findByEmail', () => {
+    it('should find a user by email', async () => {
+      await serverDB.insert(users).values({ id: userId, email: userEmail });
+
+      const user = await UserModel.findByEmail(userEmail);
+
+      expect(user).not.toBeNull();
+      expect(user?.id).toBe(userId);
+      expect(user?.email).toBe(userEmail);
     });
   });
 
@@ -154,6 +167,24 @@ describe('UserModel', () => {
       const { plaintext } = await gateKeeper.decrypt(updatedSettings!.keyVaults!);
       expect(JSON.parse(plaintext)).toEqual(settings.keyVaults);
     });
+
+    it('should update user settings with encrypted keyVaults', async () => {
+      const settings = {
+        general: { language: 'en-US' },
+      } as UserSettings;
+      await serverDB.insert(users).values({ id: userId });
+      await serverDB.insert(userSettings).values({ ...settings, keyVaults: '', id: userId });
+
+      const newSettings = {
+        general: { fontSize: 16, language: 'zh-CN', themeMode: 'dark' },
+      } as UserSettings;
+      await userModel.updateSetting(userId, newSettings);
+
+      const updatedSettings = await serverDB.query.userSettings.findFirst({
+        where: eq(users.id, userId),
+      });
+      expect(updatedSettings?.general).toEqual(newSettings.general);
+    });
   });
 
   describe('updatePreference', () => {
@@ -168,6 +199,23 @@ describe('UserModel', () => {
 
       const updatedUser = await serverDB.query.users.findFirst({ where: eq(users.id, userId) });
       expect(updatedUser?.preference).toEqual({ ...preference, ...newPreference });
+    });
+  });
+
+  describe('updateGuide', () => {
+    it('should update user guide', async () => {
+      const preference = { guide: { topic: false } } as UserGuide;
+      await serverDB.insert(users).values({ id: userId, preference });
+
+      const newGuide: Partial<UserGuide> = {
+        topic: true,
+        moveSettingsToAvatar: true,
+        uploadFileInKnowledgeBase: true,
+      };
+      await userModel.updateGuide(userId, newGuide);
+
+      const updatedUser = await serverDB.query.users.findFirst({ where: eq(users.id, userId) });
+      expect(updatedUser?.preference).toEqual({ ...preference, guide: newGuide });
     });
   });
 });

@@ -6,7 +6,7 @@ import { LOADING_FLAT } from '@/const/message';
 import { chatService } from '@/services/chat';
 import { messageService } from '@/services/message';
 import { topicService } from '@/services/topic';
-import { messageMapKey } from '@/store/chat/slices/message/utils';
+import { messageMapKey } from '@/store/chat/utils/messageMapKey';
 import { ChatMessage } from '@/types/message';
 import { ChatTopic } from '@/types/topic';
 
@@ -33,6 +33,7 @@ vi.mock('@/services/topic', () => ({
 vi.mock('@/services/message', () => ({
   messageService: {
     removeMessages: vi.fn(),
+    removeMessagesByAssistant: vi.fn(),
     getMessages: vi.fn(),
   },
 }));
@@ -351,7 +352,7 @@ describe('topic action', () => {
         await result.current.removeTopic(topicId);
       });
 
-      expect(messageService.removeMessages).toHaveBeenCalledWith(activeId, topicId);
+      expect(messageService.removeMessagesByAssistant).toHaveBeenCalledWith(activeId, topicId);
       expect(topicService.removeTopic).toHaveBeenCalledWith(topicId);
       expect(refreshTopicSpy).toHaveBeenCalled();
       expect(switchTopicSpy).toHaveBeenCalled();
@@ -372,7 +373,7 @@ describe('topic action', () => {
         await result.current.removeTopic(topicId);
       });
 
-      expect(messageService.removeMessages).toHaveBeenCalledWith(activeId, topicId);
+      expect(messageService.removeMessagesByAssistant).toHaveBeenCalledWith(activeId, topicId);
       expect(topicService.removeTopic).toHaveBeenCalledWith(topicId);
       expect(refreshTopicSpy).toHaveBeenCalled();
       expect(switchTopicSpy).not.toHaveBeenCalled();

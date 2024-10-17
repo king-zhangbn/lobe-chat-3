@@ -6,6 +6,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FORM_STYLE } from '@/const/layoutTokens';
+import { useProviderName } from '@/hooks/useProviderName';
 
 import { useStore } from '../store';
 import { selectors } from '../store/selectors';
@@ -21,19 +22,21 @@ const AgentModal = memo(() => {
     return [config.enableMaxTokens, s.setAgentConfig];
   });
 
+  const providerName = useProviderName(useStore((s) => s.config.provider) as string);
+
   useAgentSyncSettings(form);
 
   const model: ItemGroup = {
     children: [
       {
         children: <ModelSelect />,
-        desc: t('settingModel.model.desc'),
+        desc: t('settingModel.model.desc', { provider: providerName }),
         label: t('settingModel.model.title'),
         name: 'model',
         tag: 'model',
       },
       {
-        children: <SliderWithInput max={1} min={0} step={0.1} />,
+        children: <SliderWithInput max={2} min={0} step={0.1} />,
         desc: t('settingModel.temperature.desc'),
         label: t('settingModel.temperature.title'),
         name: ['params', 'temperature'],

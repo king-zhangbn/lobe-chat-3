@@ -1,6 +1,6 @@
 import isEqual from 'fast-deep-equal';
 import { produce } from 'immer';
-import { gt } from 'semver';
+import { gt, parse, valid } from 'semver';
 import useSWR, { SWRResponse } from 'swr';
 import type { StateCreator } from 'zustand/vanilla';
 
@@ -24,6 +24,7 @@ export interface GlobalStoreAction {
   switchBackToChat: (sessionId?: string) => void;
   toggleChatSideBar: (visible?: boolean) => void;
   toggleExpandSessionGroup: (id: string, expand: boolean) => void;
+  toggleMobilePortal: (visible?: boolean) => void;
   toggleMobileTopic: (visible?: boolean) => void;
   toggleSystemRole: (visible?: boolean) => void;
   updateSystemStatus: (status: Partial<SystemStatus>, action?: any) => void;
@@ -59,6 +60,12 @@ export const globalActionSlice: StateCreator<
     });
     get().updateSystemStatus({ expandSessionGroupKeys: nextExpandSessionGroup });
   },
+  toggleMobilePortal: (newValue) => {
+    const mobileShowPortal =
+      typeof newValue === 'boolean' ? newValue : !get().status.mobileShowPortal;
+
+    get().updateSystemStatus({ mobileShowPortal }, n('toggleMobilePortal', newValue));
+  },
   toggleMobileTopic: (newValue) => {
     const mobileShowTopic =
       typeof newValue === 'boolean' ? newValue : !get().status.mobileShowTopic;
@@ -87,8 +94,22 @@ export const globalActionSlice: StateCreator<
       // check latest version every 30 minutes
       focusThrottleInterval: 1000 * 60 * 30,
       onSuccess: (data: string) => {
-        if (gt(data, CURRENT_VERSION))
+        if (!valid(CURRENT_VERSION) || !valid(data)) return;
+
+        // Parse versions to ensure we're working with valid SemVer objects
+        const currentVersion = parse(CURRENT_VERSION);
+        const latestVersion = parse(data);
+
+        if (!currentVersion || !latestVersion) return;
+
+        // only compare major and minor versions
+        // solve the problem of frequent patch updates
+        const currentMajorMinor = `${currentVersion.major}.${currentVersion.minor}.0`;
+        const latestMajorMinor = `${latestVersion.major}.${latestVersion.minor}.0`;
+
+        if (gt(latestMajorMinor, currentMajorMinor)) {
           set({ hasNewVersion: true, latestVersion: data }, false, n('checkLatestVersion'));
+        }
       },
     }),
 
